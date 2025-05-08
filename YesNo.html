@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>YesNo API Answer Generator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #e0eafc, #cfdef3);
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 30px;
+    }
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+    button {
+      padding: 12px 25px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #388e3c;
+    }
+    .answer {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #222;
+      margin-top: 20px;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    .gif {
+      margin-top: 20px;
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎱 Should You Do It?</h1>
+
+  <div class="container">
+    <button onclick="getAnswer()">Ask the Magic Button</button>
+    <div class="answer" id="answer"></div>
+    <img id="gif" class="gif" src="" alt="" style="display: none;" />
+  </div>
+
+  <script>
+    async function getAnswer() {
+      const answerDiv = document.getElementById('answer');
+      const gif = document.getElementById('gif');
+
+      try {
+        const res = await fetch('https://yesno.wtf/api');
+        const data = await res.json();
+
+        answerDiv.textContent = data.answer.toUpperCase();
+        gif.src = data.image;
+        gif.style.display = 'block';
+      } catch (err) {
+        answerDiv.textContent = 'Oops! Something went wrong.';
+        gif.style.display = 'none';
+        console.error(err);
+      }
+    }
+  </script>
+
+</body>
+</html>
